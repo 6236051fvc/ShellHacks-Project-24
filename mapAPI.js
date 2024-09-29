@@ -2,17 +2,20 @@ let map;
 let directionsService;
 let directionsRenderer;
 
-// Array of parking lots with capacity and location details
+// Array of FIU parking garages with capacity and location details
 const parkingLots = [
-    { id: 1, name: "Garage 1", capacity: 100, available: 50, location: { lat: 25.756, lng: -80.374 } },
-    { id: 2, name: "Garage 2", capacity: 120, available: 10, location: { lat: 25.758, lng: -80.376 } },
-    { id: 3, name: "Garage 3", capacity: 80, available: 30, location: { lat: 25.760, lng: -80.377 } }
+    { id: 1, name: "PG1 (Gold Garage)", capacity: 500, available: 200, location: { lat: 25.754854, lng: -80.372082 } },
+    { id: 2, name: "PG2 (Blue Garage)", capacity: 600, available: 100, location: { lat: 25.753883, lng: -80.372066 } },
+    { id: 3, name: "PG3 (Panther Parking)", capacity: 700, available: 300, location: { lat: 25.758448, lng: -80.379823 } },
+    { id: 4, name: "PG4 (Red Garage)", capacity: 400, available: 50, location: { lat: 25.760168, lng: -80.373150 } },
+    { id: 5, name: "PG5 (Market Station)", capacity: 350, available: 150, location: { lat: 25.760125, lng: -80.371642 } },
+    { id: 6, name: "PG6 (Tech Station)", capacity: 800, available: 400, location: { lat: 25.760144, lng: -80.374555 } }
 ];
 
 function initMap() {
     // Create a map centered at FIU
     map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 25.756, lng: -80.374 },
+        center: { lat: 25.756, lng: -80.373 },
         zoom: 15
     });
 
@@ -28,15 +31,20 @@ function findParking() {
         return;
     }
 
-    // Assume all building locations are hardcoded; you may want to replace this with a dynamic API call
+    // List of FIU building destinations and their coordinates
     const buildingLocations = {
-        "library": { lat: 25.759, lng: -80.374 },
-        "engineering": { lat: 25.757, lng: -80.372 },
-        "science": { lat: 25.760, lng: -80.375 }
+        "ryder business building": { lat: 25.758064, lng: -80.374771 },
+        "green library": { lat: 25.756906, lng: -80.373895 },
+        "science complex": { lat: 25.756682, lng: -80.372915 },
+        "engineering center": { lat: 25.768388, lng: -80.366553 },
+        "graham center": { lat: 25.757067, lng: -80.373644 },
+        "health and life sciences building": { lat: 25.756507, lng: -80.372119 },
+        "academic health center": { lat: 25.757547, lng: -80.371284 },
+        "mango building": { lat: 25.757111, lng: -80.372586 }
     };
 
     if (!(destination.toLowerCase() in buildingLocations)) {
-        alert("Building not found. Try 'library', 'engineering', or 'science'.");
+        alert("Building not found. Please enter a valid FIU building name.");
         return;
     }
 
@@ -44,41 +52,46 @@ function findParking() {
     const resultsContainer = document.getElementById("results");
     resultsContainer.innerHTML = ''; // Clear previous results
 
-    // Calculate distance to each parking lot and recommend the best options
-    const service = new google.maps.DistanceMatrixService();
-    service.getDistanceMatrix(
-        {
-            origins: parkingLots.map(lot => lot.location),
-            destinations: [buildingLocation],
-            travelMode: google.maps.TravelMode.DRIVING
-        },
-        (response, status) => {
-            if (status === "OK") {
-                const distances = response.rows;
-                const sortedLots = distances.map((row, index) => {
-                    return {
-                        lot: parkingLots[index],
-                        distance: row.elements[0].distance.value // Get distance in meters
-                    };
-                }).sort((a, b) => a.distance - b.distance); // Sort by distance
+    // Calculate distances manually between each parking lot and the destination
+    const sortedLots = parkingLots.map(lot => {
+        const distance = calculateDistance(lot.location, buildingLocation);
+        return {
+            lot: lot,
+            distance: distance // Get distance in meters
+        };
+    }).sort((a, b) => a.distance - b.distance); // Sort by distance
 
-                // Display the top 3 closest parking garages with available spots
-                sortedLots.forEach(({ lot, distance }) => {
-                    if (lot.available > 0) {
-                        const distanceInKm = (distance / 1000).toFixed(2);
-                        const resultItem = document.createElement('div');
-                        resultItem.innerHTML = `
-                            <h3>${lot.name}</h3>
-                            <p>Available Spots: ${lot.available}</p>
-                            <p>Distance to destination: ${distanceInKm} km</p>
-                            <button onclick="showDirections(${lot.location.lat}, ${lot.location.lng}, ${buildingLocation.lat}, ${buildingLocation.lng})">Get Directions</button>
-                        `;
-                        resultsContainer.appendChild(resultItem);
-                    }
-                });
-            }
+    // Display the parking garages with available spots
+    sortedLots.forEach(({ lot, distance }) => {
+        if (lot.available > 0) {
+            const distanceInKm = (distance / 1000).toFixed(2);
+            const resultItem = document.createElement('div');
+            resultItem.innerHTML = `
+                <h3>${lot.name}</h3>
+                <p>Available Spots: ${lot.available}</p>
+                <p>Distance to destination: ${distanceInKm} km</p>
+                <button onclick="showDirections(${lot.location.lat}, ${lot.location.lng}, ${buildingLocation.lat}, ${buildingLocation.lng})">Get Directions</button>
+            `;
+            resultsContainer.appendChild(resultItem);
         }
-    );
+    });
+}
+
+// Function to calculate distance between two coordinates using the Haversine formula
+function calculateDistance(coord1, coord2) {
+    const R = 6371e3; // Earth radius in meters
+    const φ1 = coord1.lat * Math.PI/180; // φ, λ in radians
+    const φ2 = coord2.lat * Math.PI/180;
+    const Δφ = (coord2.lat - coord1.lat) * Math.PI/180;
+    const Δλ = (coord2.lng - coord1.lng) * Math.PI/180;
+
+    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ/2) * Math.sin(Δλ/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+    const distance = R * c; // in meters
+    return distance;
 }
 
 function showDirections(parkingLat, parkingLng, destLat, destLng) {
