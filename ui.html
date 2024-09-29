@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Div Layout</title>
-    <link rel="stylesheet" href="ui.css">  
+    <title>FIU Smart Parking</title>
+    <link rel="stylesheet" href="ui.css">
 
     <style>
         body, html {
@@ -14,18 +14,18 @@
         }
         
         .header {
-            height: 100px;
-            background-color: #010102; /* Dark blue color */
+            background: rgb(2,0,36);
+background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(9,15,125,1) 37%, rgba(0,23,255,1) 100%); 
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5em; /* Increased font size for the header */
+            font-size: 1.5em;
         }
 
         .main {
             display: flex;
-            height: calc(100vh - 100px); /* Full height minus header */
+            height: calc(100vh - 100px);
         }
 
         .box {
@@ -35,94 +35,101 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column; /* Allow vertical stacking */
+            flex-direction: column;
         }
 
         .box1 {
-            background-color: #0b3755; /* Blue color */
-            flex: 1; /* 1/3 of the space */
-            justify-content: flex-start; /* Align elements at the top */
-            overflow-y: auto; /* Enable scrolling if content exceeds height */
-            height:100%;
+            background: rgb(0,23,255);
+background: linear-gradient(180deg, rgba(0,23,255,1) 0%, rgba(9,15,125,1) 35%, rgba(9,9,121,1) 37%, rgba(2,0,36,1) 100%);  flex: 1;
+            justify-content: flex-start;
         }
 
         .header-text {
-            font-size: 1.2em; /* Adjust font size as needed */
-            margin-bottom: 10px; /* Space below the text */
-            text-align: center; /* Center the text */
-        }
-
-        .tab {
-            background-color: #2980b9; /* Slightly darker blue */
-            margin: 15px;
-            padding: 0 100px;
-            border-radius: 5px;
-            cursor: pointer; /* Hand icon on hover */
+            font-size: 1.2em;
+            margin-bottom: 10px;
             text-align: center;
-            transition: background-color 0.3s; /* Smooth transition */
         }
 
-        .tab:hover {
-            background-color: #1f6d9b; /* Even darker blue on hover */
+        .input-container {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #building-dropdown {
+            width: 80%;
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        #find-parking-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #find-parking-btn:hover {
+            background-color: #1f6d9b;
+        }
+
+        #results {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #results div {
+            margin-bottom: 15px;
+            background: #bb9b0d;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            color: black;
         }
 
         .box2 {
-            background-color: #e74c3c; /* Red color */
-            flex: 2; /* 2/3 of the space */
+            background-color: #bb9b0d;
+            flex: 2;
             display: flex;
             align-items: center;
             justify-content: center;
-            position:sticky;
-            height:100%;
-            
+            position: relative;
         }
 
         #map {
             width: 100%;
-            height: 100%; /* Take full space of the box */
-            position:sticky;
+            height: 100%;
         }
 
-        .destination-input {
-            margin: 20px 0;
-            padding: 10px;
-            width: 80%;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        .search-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #2980b9;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .search-button:hover {
-            background-color: #1f6d9b;
-        }
-
-        .results {
-            margin: 20px 0;
-            color: #f5f5f5;
+        .pic{
+            width: 85px ;
+            height: 80px;
         }
     </style>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvirUhxls51o9F1W8X7XWdKOjWjjf27mo" defer></script>
-    <script src="mapAPI.js" defer></script> <!-- Link to the external JavaScript file -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvirUhxls51o9F1W8X7XWdKOjWjjf27mo&libraries=geometry" defer></script>
+    <script src="mapAPI.js" defer></script>
 </head>
 <body>
-    <div class="header">Florida International University</div>
+    <div class="header"><img class="pic"src='15-156016_panthers-logo-png.png'></div>
     <div class="main">
         <div class="box box1">
-            <div class="header-text">Find Your Parking Spot</div>
-            <input type="text" id="destination-input" class="destination-input" placeholder="Enter your building destination">
-            <button class="search-button" onclick="findParking()">Search Parking</button>
-            <div id="results" class="results"></div> <!-- Container for displaying parking suggestions -->
+            <div class="header-text">Select Your Destination</div>
+            <div class="input-container">
+                <select id="building-dropdown">
+                    <option value="">Select a Building</option>
+                    <!-- Options populated dynamically in JS -->
+                </select>
+                <button id="find-parking-btn" onclick="findParking()">Find Parking</button>
+            </div>
+            <div id="results"></div>
         </div>
         <div class="box box2">
             <div id="map"></div>
