@@ -1,0 +1,50 @@
+{
+    "PG1 (Gold Garage)": {
+        "capacity": 500,
+        "available_spaces": 343,
+        "location": {
+            "lat": 25.754854,
+            "lng": -80.372082
+        }
+    },
+    "PG2 (Blue Garage)": {
+        "capacity": 600,
+        "available_spaces": 269,
+        "location": {
+            "lat": 25.753883,
+            "lng": -80.372066
+        }
+    },
+    "PG3 (Panther Parking)": {
+        "capacity": 700,
+        "available_spaces": 1376,
+        "location": {
+            "lat": 25.758448,
+            "lng": -80.379823
+        }
+    },
+    "PG4 (Red Garage)": {
+        "capacity": 400,
+        "available_spaces": 649,
+        "location": {
+            "lat": 25.760168,
+            "lng": -80.37315
+        }
+    },
+    "PG5 (Market Station)": {
+        "capacity": 350,
+        "available_spaces": 1195,
+        "location": {
+            "lat": 25.760125,
+            "lng": -80.371642
+        }
+    },
+    "PG6 (Tech Station)": {
+        "capacity": 800,
+        "available_spaces": 1466,
+        "location": {
+            "lat": 25.760144,
+            "lng": -80.374555
+        }
+    }
+}

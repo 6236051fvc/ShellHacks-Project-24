@@ -3,70 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Div Layout</title>
-    <link rel="stylesheet" href="ui.css">  
+    <title>FIU Smart Parking</title>
+    <link rel="stylesheet" href="ui.css">
 
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
+            font-family: Arial, sans-serif; /* Global Arial font */
         }
         
         .header {
-            height: 100px;
-            background-color: #010102; /* Dark blue color */
+            background-color: navy; /* Navy Blue accent */
             color: white;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5em; /* Increased font size for the header */
+            justify-content: space-between;
+            font-size: 1.5em;
+            padding: 10px;
+            border-bottom: 2px solid #001f3f;
+        }
+
+        .title {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white; /* White title text */
         }
 
         .main {
             display: flex;
-            height: calc(100vh - 100px); /* Full height minus header */
+            height: calc(100vh - 100px);
         }
 
         .box {
             padding: 20px;
-            color: white;
             font-size: 1.5em;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column; /* Allow vertical stacking */
+            flex-direction: column;
         }
 
         .box1 {
-            background-color: #0b3755; /* Blue color */
-            flex: 1; /* 1/3 of the space */
-            justify-content: flex-start; /* Align elements at the top */
+            background-color: white;
+            color: navy; /* Navy Blue text */
+            flex: 1;
+            justify-content: flex-start;
         }
 
         .header-text {
-            font-size: 1.2em; /* Adjust font size as needed */
-            margin-bottom: 10px; /* Space below the text */
-            text-align: center; /* Center the text */
-        }
-
-        .tab {
-            background-color: #2980b9; /* Slightly darker blue */
-            margin: 15px;
-            padding: 0 100px;
-            border-radius: 5px;
-            cursor: pointer; /* Hand icon on hover */
+            font-size: 1.2em;
+            margin-bottom: 10px;
             text-align: center;
-            transition: background-color 0.3s; /* Smooth transition */
         }
 
-        .tab:hover {
-            background-color: #1f6d9b; /* Even darker blue on hover */
+        .input-container {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Styled White Button */
+        .get-directions-btn {
+            padding: 10px 20px; /* Padding for the button */
+            font-size: 1em; /* Font size */
+            background-color: white; /* White background */
+            color: navy; /* Navy text */
+            border: 2px solid navy; /* Navy border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+        }
+
+        /* Hover effect */
+        .get-directions-btn:hover {
+            background-color: #f0f0f0; /* Light gray on hover */
+        }
+
+        /* Active state */
+        .get-directions-btn:active {
+            background-color: #e0e0e0; /* Slightly darker gray on click */
+        }
+
+        #building-dropdown {
+            width: 80%;
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+            border: 2px solid navy; /* Navy Blue border */
+        }
+
+        #find-parking-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: navy; /* Navy Blue button */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #find-parking-btn:hover {
+            background-color: #00173f; /* Darker navy on hover */
+        }
+
+        #results {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #results div {
+            margin-bottom: 15px;
+            background: navy;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            color: white;
         }
 
         .box2 {
-            background-color: #e74c3c; /* Red color */
-            flex: 2; /* 2/3 of the space */
+            background-color: white;
+            flex: 2;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -75,49 +138,35 @@
 
         #map {
             width: 100%;
-            height: 100%; /* Take full space of the box */
+            height: 100%;
         }
 
-        .destination-input {
-            margin: 20px 0;
-            padding: 10px;
-            width: 80%;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        .search-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #2980b9;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .search-button:hover {
-            background-color: #1f6d9b;
-        }
-
-        .results {
-            margin: 20px 0;
-            color: #f5f5f5;
+        .pic {
+            width: 85px;
+            height: 80px;
         }
     </style>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvirUhxls51o9F1W8X7XWdKOjWjjf27mo" defer></script>
-    <script src="mapAPI.js" defer></script> <!-- Link to the external JavaScript file -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvirUhxls51o9F1W8X7XWdKOjWjjf27mo&libraries=geometry" defer></script>
+    <script src="mapAPI.js" defer></script>
 </head>
 <body>
-    <div class="header">Florida International University</div>
+    <div class="header">
+        <img class="pic" src="15-156016_panthers-logo-png.png" alt="Panther Logo">
+        <div class="title">FIU Smart Parking</div>
+        <div style="width: 85px;"></div> <!-- Empty div for spacing, same width as the logo -->
+    </div>
     <div class="main">
         <div class="box box1">
-            <div class="header-text">Find Your Parking Spot</div>
-            <input type="text" id="destination-input" class="destination-input" placeholder="Enter your building destination">
-            <button class="search-button" onclick="findParking()">Search Parking</button>
-            <div id="results" class="results"></div> <!-- Container for displaying parking suggestions -->
+            <div class="header-text">Select Your Destination</div>
+            <div class="input-container">
+                <select id="building-dropdown">
+                    <option value="">Select a Building</option>
+                    <!-- Options populated dynamically in JS -->
+                </select>
+                <button id="find-parking-btn" onclick="findParking()">Find Parking</button>
+            </div>
+            <div id="results"></div>
         </div>
         <div class="box box2">
             <div id="map"></div>
