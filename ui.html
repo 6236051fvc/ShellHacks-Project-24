@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Div Layout</title>
     <link rel="stylesheet" href="ui.css">  
+
     <style>
         body, html {
             margin: 0;
@@ -69,8 +70,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+        }
+
+        /* Add this to style the map */
+        #map {
+            width: 100%;
+            height: 100%; /* Take full space of the box */
         }
     </style>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvirUhxls51o9F1W8X7XWdKOjWjjf27mo" defer></script>
+    <script src="mapAPI.js" defer></script> <!-- Link to the external JavaScript file -->
 </head>
 <body>
     <div class="header">Florida International University</div>
@@ -81,7 +92,10 @@
             <div class="tab">Tab 2</div>
             <div class="tab">Tab 3</div>
         </div>
-        <div class="box box2">2/3 Space</div>
+        <div class="box box2">
+            <!-- Add a div for the map -->
+            <div id="map"></div>
+        </div>
     </div>
 </body>
 </html>
