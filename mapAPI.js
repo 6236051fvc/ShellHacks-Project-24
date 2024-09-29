@@ -2,7 +2,6 @@ let map;
 let directionsService;
 let directionsRenderer;
 
-
 // Initialize an empty array for parking lots
 let parkingLots = [];
 
@@ -17,17 +16,6 @@ const buildingLocations = {
     "Academic Health Center": { lat: 25.757547, lng: -80.371284 },
     "MANGO Building": { lat: 25.7574, lng: -80.3770 }
 };
-=======
-// Array of FIU parking garages with capacity and location details
-const parkingLots = [
-    { id: 1, name: "PG1 (Gold Garage)", capacity: 500, available: 200, location: { lat: 25.754854, lng: -80.372082 } },
-    { id: 2, name: "PG2 (Blue Garage)", capacity: 600, available: 100, location: { lat: 25.753883, lng: -80.372066 } },
-    { id: 3, name: "PG3 (Panther Parking)", capacity: 700, available: 300, location: { lat: 25.758448, lng: -80.379823 } },
-    { id: 4, name: "PG4 (Red Garage)", capacity: 400, available: 50, location: { lat: 25.760168, lng: -80.373150 } },
-    { id: 5, name: "PG5 (Market Station)", capacity: 350, available: 150, location: { lat: 25.760125, lng: -80.371642 } },
-    { id: 6, name: "PG6 (Tech Station)", capacity: 800, available: 400, location: { lat: 25.760144, lng: -80.374555 } }
-];
-
 
 function initMap() {
     // Create a map centered at FIU
@@ -48,8 +36,6 @@ function initMap() {
         option.textContent = building;
         buildingDropdown.appendChild(option);
     }
-}
-
 
     // Fetch parking data from the JSON file created by liveParking.py
     fetch('parking_data.json')
@@ -77,7 +63,6 @@ function updateMapWithGarages() {
         });
     });
 }
-
 
 function findParking() {
     const buildingDropdown = document.getElementById("building-dropdown");
@@ -108,10 +93,8 @@ function findParking() {
             resultItem.innerHTML = `
                 <h3>${lot.name}</h3>
                 <p>Available Spots: ${lot.available}</p>
-
                 <p>Distance to destination: ${distanceInKm} km</p>
                 <button class = "get-directions-btm" onclick="showDirections(${lot.location.lat}, ${lot.location.lng}, ${buildingLocation.lat}, ${buildingLocation.lng})">Get Directions</button>
-
             `;
             resultsContainer.appendChild(resultItem);
         }
@@ -130,7 +113,6 @@ function calculateDistance(coord1, coord2) {
               Math.cos(φ1) * Math.cos(φ2) *
               Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
 
     const distance = R * c; // in meters
     return distance;
