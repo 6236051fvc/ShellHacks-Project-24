@@ -3,24 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIU Smart Parking</title>
+    <title>Panther Park</title>
     <link rel="stylesheet" href="ui.css">
 
     <style>
+        /* Set Arial as the default font for the entire page */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
+            font-family: Arial, sans-serif; /* Global Arial font */
         }
-        
+
         .header {
-            background: rgb(2,0,36);
-background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(9,15,125,1) 37%, rgba(0,23,255,1) 100%); 
+            background-color: navy; /* Navy Blue accent */
             color: white;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             font-size: 1.5em;
+            padding: 10px;
+            border-bottom: 2px solid #001f3f;
+        }
+
+        .title {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white; /* White title text */
         }
 
         .main {
@@ -30,7 +41,6 @@ background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba
 
         .box {
             padding: 20px;
-            color: white;
             font-size: 1.5em;
             display: flex;
             align-items: center;
@@ -39,8 +49,9 @@ background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba
         }
 
         .box1 {
-            background: rgb(0,23,255);
-background: linear-gradient(180deg, rgba(0,23,255,1) 0%, rgba(9,15,125,1) 35%, rgba(9,9,121,1) 37%, rgba(2,0,36,1) 100%);  flex: 1;
+            background-color: white;
+            color: navy; /* Navy Blue text */
+            flex: 1;
             justify-content: flex-start;
         }
 
@@ -58,17 +69,40 @@ background: linear-gradient(180deg, rgba(0,23,255,1) 0%, rgba(9,15,125,1) 35%, r
             justify-content: center;
         }
 
+        /* Styled White Button */
+        .get-directions-btn {
+            padding: 10px 20px; /* Padding for the button */
+            font-size: 1em; /* Font size */
+            background-color: white; /* White background */
+            color: navy; /* Navy text */
+            border: 2px solid navy; /* Navy border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+        }
+
+        /* Hover effect */
+        .get-directions-btn:hover {
+            background-color: #f0f0f0; /* Light gray on hover */
+        }
+
+        /* Active state */
+        .get-directions-btn:active {
+            background-color: #e0e0e0; /* Slightly darker gray on click */
+        }
+
         #building-dropdown {
             width: 80%;
             padding: 10px;
             font-size: 1em;
             margin-bottom: 10px;
+            border: 2px solid navy; /* Navy Blue border */
         }
 
         #find-parking-btn {
             padding: 10px 20px;
             font-size: 1em;
-            background-color: #2980b9;
+            background-color: navy; /* Navy Blue button */
             color: white;
             border: none;
             cursor: pointer;
@@ -76,7 +110,7 @@ background: linear-gradient(180deg, rgba(0,23,255,1) 0%, rgba(9,15,125,1) 35%, r
         }
 
         #find-parking-btn:hover {
-            background-color: #1f6d9b;
+            background-color: #00173f; /* Darker navy on hover */
         }
 
         #results {
@@ -87,15 +121,15 @@ background: linear-gradient(180deg, rgba(0,23,255,1) 0%, rgba(9,15,125,1) 35%, r
 
         #results div {
             margin-bottom: 15px;
-            background: #bb9b0d;
+            background: navy;
             padding: 10px;
             border-radius: 5px;
             text-align: center;
-            color: black;
+            color: white;
         }
 
         .box2 {
-            background-color: #bb9b0d;
+            background-color: white;
             flex: 2;
             display: flex;
             align-items: center;
@@ -108,8 +142,8 @@ background: linear-gradient(180deg, rgba(0,23,255,1) 0%, rgba(9,15,125,1) 35%, r
             height: 100%;
         }
 
-        .pic{
-            width: 85px ;
+        .pic {
+            width: 85px;
             height: 80px;
         }
     </style>
@@ -118,7 +152,12 @@ background: linear-gradient(180deg, rgba(0,23,255,1) 0%, rgba(9,15,125,1) 35%, r
     <script src="mapAPI.js" defer></script>
 </head>
 <body>
-    <div class="header"><img class="pic"src='15-156016_panthers-logo-png.png'></div>
+    <div class="header">
+        <img class="pic" src="15-156016_panthers-logo-png.png" alt="Panther Logo">
+        <div class="title">Panther Park</div>
+        <div style="width: 85px;"></div> <!-- Empty div for spacing, same width as the logo -->
+    </div>
+
     <div class="main">
         <div class="box box1">
             <div class="header-text">Select Your Destination</div>

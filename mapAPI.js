@@ -21,7 +21,7 @@ const buildingLocations = {
     "Graham Center": { lat: 25.757067, lng: -80.373644 },
     "Health and Life Sciences Building": { lat: 25.756507, lng: -80.372119 },
     "Academic Health Center": { lat: 25.757547, lng: -80.371284 },
-    "MANGO Building": { lat: 25.757111, lng: -80.372586 }
+    "MANGO Building": { lat: 25.7574, lng: -80.3770 }
 };
 
 function initMap() {
@@ -74,8 +74,8 @@ function findParking() {
             resultItem.innerHTML = `
                 <h3>${lot.name}</h3>
                 <p>Available Spots: ${lot.available}</p>
-                <p>Distance to destination: ${distanceInKm} km</p>
-                <button onclick="showDirections(${lot.location.lat}, ${lot.location.lng}, ${buildingLocation.lat}, ${buildingLocation.lng})">Get Directions</button>
+                <p>Distance to Destination: ${distanceInKm} km</p>
+                <button class="get-directions-btn" onclick="showDirections(${lot.location.lat}, ${lot.location.lng}, ${buildingLocation.lat}, ${buildingLocation.lng})">Get Directions</button>
             `;
             resultsContainer.appendChild(resultItem);
         }
