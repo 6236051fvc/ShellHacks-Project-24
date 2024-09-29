@@ -41,7 +41,7 @@
         .box1 {
             background-color: #0b3755; /* Blue color */
             flex: 1; /* 1/3 of the space */
-            justify-content: flex-start; /* Align tabs at the top */
+            justify-content: flex-start; /* Align elements at the top */
         }
 
         .header-text {
@@ -73,10 +73,37 @@
             position: relative;
         }
 
-        /* Add this to style the map */
         #map {
             width: 100%;
             height: 100%; /* Take full space of the box */
+        }
+
+        .destination-input {
+            margin: 20px 0;
+            padding: 10px;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2980b9;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #1f6d9b;
+        }
+
+        .results {
+            margin: 20px 0;
+            color: #f5f5f5;
         }
     </style>
 
@@ -87,13 +114,12 @@
     <div class="header">Florida International University</div>
     <div class="main">
         <div class="box box1">
-            <div class="header-text">First Class in</div>
-            <div class="tab">Tab 1</div>
-            <div class="tab">Tab 2</div>
-            <div class="tab">Tab 3</div>
+            <div class="header-text">Find Your Parking Spot</div>
+            <input type="text" id="destination-input" class="destination-input" placeholder="Enter your building destination">
+            <button class="search-button" onclick="findParking()">Search Parking</button>
+            <div id="results" class="results"></div> <!-- Container for displaying parking suggestions -->
         </div>
         <div class="box box2">
-            <!-- Add a div for the map -->
             <div id="map"></div>
         </div>
     </div>
